@@ -1,43 +1,4 @@
-<script type="text/javascript">
-        var gk_isXlsx = false;
-        var gk_xlsxFileLookup = {};
-        var gk_fileData = {};
-        function filledCell(cell) {
-          return cell !== '' && cell != null;
-        }
-        function loadFileData(filename) {
-        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-            try {
-                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-                var firstSheetName = workbook.SheetNames[0];
-                var worksheet = workbook.Sheets[firstSheetName];
-
-                // Convert sheet to JSON to filter blank rows
-                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-                // Filter out blank rows (rows where all cells are empty, null, or undefined)
-                var filteredData = jsonData.filter(row => row.some(filledCell));
-
-                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-                var headerRowIndex = filteredData.findIndex((row, index) =>
-                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-                );
-                // Fallback
-                if (headerRowIndex === -1 || headerRowIndex > 25) {
-                  headerRowIndex = 0;
-                }
-
-                // Convert filtered JSON back to CSV
-                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-                return csv;
-            } catch (e) {
-                console.error(e);
-                return "";
-            }
-        }
-        return gk_fileData[filename] || "";
-        }
-        </script><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -58,9 +19,9 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: url('https://images.unsplash.com/photo-1635078041078-8c327f232e0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
+      background: url('https://wallpapers.com/images/featured/technology-w65hwkhmusntb0j9.jpg') no-repeat center center fixed;
       background-size: cover;
-      opacity: 0.3;
+      opacity: 0.7;
       z-index: -1;
     }
     #background::after {
@@ -78,7 +39,7 @@
       50% { opacity: 0.8; }
     }
     .section-bg {
-      background: rgba(15, 23, 42, 0.85);
+      background: rgba(15, 23, 42, 0.9);
     }
     .animate-pulse {
       animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
@@ -101,6 +62,7 @@
         <a href="#home" class="hover:text-blue-400 transition">Home</a>
         <a href="#features" class="hover:text-blue-400 transition">Features</a>
         <a href="#synapsecoin" class="hover:text-blue-400 transition">SynapseCoin</a>
+        <a href="#tokenomics" class="hover:text-blue-400 transition">Tokenomics</a>
         <a href="#join" class="hover:text-blue-400 transition">Join</a>
       </div>
     </div>
@@ -145,6 +107,22 @@
         SynapseCoin (SYNC) is the native memecoin of our platform, enabling seamless transactions, rewards, and access to premium AI services. Join the movement and be part of the future of AI-driven finance!
       </p>
       <a href="#join" class="bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded-full transition">Get SYNC Now</a>
+    </div>
+  </section>
+
+  <!-- Tokenomics Section -->
+  <section id="tokenomics" class="py-20 section-bg">
+    <div class="container mx-auto text-center">
+      <h2 class="text-4xl font-bold mb-12">Tokenomics</h2>
+      <div class="max-w-lg mx-auto text-left">
+        <h3 class="text-2xl font-semibold mb-4">Token Details</h3>
+        <ul class="text-lg space-y-2">
+          <li><span class="font-bold">Name:</span> SynapseCoin</li>
+          <li><span class="font-bold">Symbol:</span> $SYNC</li>
+          <li><span class="font-bold">Network:</span> Solana</li>
+          <li><span class="font-bold">CA:</span> Coming soon</li>
+        </ul>
+      </div>
     </div>
   </section>
 
